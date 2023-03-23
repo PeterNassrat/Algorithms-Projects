@@ -1,4 +1,4 @@
-// Date: 3/2023 //
+// Date: 03/2023 //
 # SkipList Data Structure
 This is an Implementation of **SkipList Data Structure** in **Java** programming language.\
 This work is part of the **Algorithms Design and Analysis** Course.\
