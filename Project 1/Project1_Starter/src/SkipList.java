@@ -73,7 +73,36 @@ public class SkipList<K extends Comparable<? super K>, V>
      */
     @SuppressWarnings("unchecked")
     public void insert(KVPair<K, V> it) {
-
+    	int newLevel = randomLevel();
+    	
+    	// Increasing the head levels if the new level is higher
+    	if (newLevel > head.level) {
+    		adjustHead(newLevel);
+    	}
+    	
+    	// An array to store the end node for every level before the required position
+    	SkipNode[] temp;
+    	temp = (SkipNode[])Array.newInstance(SkipList.SkipNode.class, head.level + 1);
+    	
+    	
+    	// Searching for the position to insert the New Node
+    	SkipNode curr = head;
+    	for(int i = head.level ; i >= 0 ; i--) {
+    		while(curr.forward[i] != null && curr.forward[i].pair.compareTo(it) < 0) {
+    			curr = curr.forward[i];
+    		}
+    		temp[i] = curr;
+    	}
+    	
+    	SkipNode newNode = new SkipNode(it, newLevel);
+    	// Updating the forwards arrays of the New Node and for the nodes pointing to the New Node
+    	for(int i = 0 ; i <= newLevel ; i++) {
+    		newNode.forward[i] = temp[i].forward[i];
+    		temp[i].forward[i] = newNode;
+    	}
+    	
+    	size++; // increasing the size of the Skip List
+    	
     }
 
 
@@ -86,7 +115,15 @@ public class SkipList<K extends Comparable<? super K>, V>
      */
     @SuppressWarnings("unchecked")
     private void adjustHead(int newLevel) {
-
+    	
+    	SkipNode temp = head;
+    	int prevLevel = head.level;
+    	
+    	head = new SkipNode(null, newLevel);
+    	// restoring the previous forward array to the new head
+    	for(int i = 0 ; i <= prevLevel ; i++) {
+    		head.forward[i] = temp.forward[i];
+    	}
     }
 
 
