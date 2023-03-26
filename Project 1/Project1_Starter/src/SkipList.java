@@ -50,21 +50,27 @@ public class SkipList<K extends Comparable<? super K>, V>
      * @param key
      *            key to be searched for
      */
+    
+    /**
+     * @return all nodes that have the given key
+     */
     public ArrayList<KVPair<K, V>> search(K key) {
-    	
-    	SkipNode curr = head; 
+    
+    	SkipNode curr = head; // start node (head)
 
+    	// 
     	for (int i = head.level; i>=0; i--)
     	{
     		while((curr.forward[i] != null) && (curr.forward[i].element().getKey().compareTo(key) < 0)) {
-    			curr = curr.forward[i];
+    			curr = curr.forward[i]; // go forward
     		}
     	}
-
-    	curr = curr.forward[0];
+    	
+    	curr = curr.forward[0]; // Move to actual record, if it exists
     	
     	if(curr != null && (curr.element().getKey().compareTo(key) == 0))
     	{
+    		// Array to store nodes that have been found
     		ArrayList<KVPair<K, V>> nodes = new ArrayList<KVPair<K, V>>();
         	while(curr != null && (curr.element().getKey().compareTo(key) == 0))
         	{
@@ -73,7 +79,9 @@ public class SkipList<K extends Comparable<? super K>, V>
         	}	
         	return nodes;
     	}
-    	return null;
+    	
+    	// The key isn't exist 
+    	return null; 
     
     }
 
