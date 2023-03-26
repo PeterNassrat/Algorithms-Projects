@@ -86,9 +86,9 @@ public class SkipList<K extends Comparable<? super K>, V>
     	
     	
     	// Searching for the position to insert the New Node
-    	SkipNode curr = head;
+    	SkipNode curr = head;    	
     	for(int i = head.level ; i >= 0 ; i--) {
-    		while(curr.forward[i] != null && curr.forward[i].pair.compareTo(it) < 0) {
+    		while(curr.forward[i] != null && curr.forward[i].element().compareTo(it) < 0) {
     			curr = curr.forward[i];
     		}
     		temp[i] = curr;
