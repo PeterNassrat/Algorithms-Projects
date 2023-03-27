@@ -113,8 +113,41 @@ public class SkipList<K extends Comparable<? super K>, V>
      *            the value of the KVPair to be removed
      * @return returns true if the removal was successful
      */
+    @SuppressWarnings("unchecked")
     public KVPair<K, V> removeByValue(V val) {
-        return null;
+    	
+    	SkipNode crt = head;  //Points to the current node (head)
+    	SkipNode iterNode = head; // To iterate on the list
+		SkipNode[] prvNodes =(SkipNode[]) Array.newInstance(SkipList.SkipNode.class,head.level+1);
+    	                   //The previous nodes of the node to be removed
+    	
+    	
+    	while((crt.forward[0] != null) && (crt.forward[0].element().getValue() != val)  ) {
+    		
+    		crt = crt.forward[0]; // Go to the next node		
+    	}
+   
+    	crt = crt.forward[0]; // Move to actual record, if it exists
+    	
+    	if ((crt!= null)) { //Check if this is the required node
+    		
+    		for (int i = crt.level; i>=0; i--)
+        	{
+    			while((iterNode.forward[i] != null) && iterNode.forward[i].equals(crt)!=true ) {
+        		
+    				iterNode = iterNode.forward[i]; // Go to the next node		
+    			}
+    		prvNodes[i]=iterNode;
+        	}
+    		for (int j = crt.level; j>=0; j--) {
+    			prvNodes[j].forward[j] = crt.forward[j];
+    		}
+    		
+        	size--;
+        	return crt.element();
+    	}
+    	
+    	return null; 
     }
 
 

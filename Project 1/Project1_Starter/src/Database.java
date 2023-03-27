@@ -65,7 +65,7 @@ public class Database {
      * @param x
      *            x-coordinate of the rectangle to be removed
      * @param y
-     *            x-coordinate of the rectangle to be removed
+     *            y-coordinate of the rectangle to be removed
      * @param w
      *            width of the rectangle to be removed
      * @param h
