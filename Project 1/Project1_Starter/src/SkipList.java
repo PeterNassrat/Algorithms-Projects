@@ -29,7 +29,6 @@ public class SkipList<K extends Comparable<? super K>, V>
         size = 0;
     }
 
-
     /**
      * Returns a random level number which is used as the depth of the SkipNode
      * 
@@ -51,8 +50,39 @@ public class SkipList<K extends Comparable<? super K>, V>
      * @param key
      *            key to be searched for
      */
+    
+    /**
+     * @return all nodes that have the given key
+     */
     public ArrayList<KVPair<K, V>> search(K key) {
-        return null;
+    
+    	SkipNode curr = head; // start node (head)
+
+    	// 
+    	for (int i = head.level; i>=0; i--)
+    	{
+    		while((curr.forward[i] != null) && (curr.forward[i].element().getKey().compareTo(key) < 0)) {
+    			curr = curr.forward[i]; // go forward
+    		}
+    	}
+    	
+    	curr = curr.forward[0]; // Move to actual record, if it exists
+    	
+    	if(curr != null && (curr.element().getKey().compareTo(key) == 0))
+    	{
+    		// Array to store nodes that have been found
+    		ArrayList<KVPair<K, V>> nodes = new ArrayList<KVPair<K, V>>();
+        	while(curr != null && (curr.element().getKey().compareTo(key) == 0))
+        	{
+        		nodes.add(curr.element());
+        		curr = curr.forward[0]; 
+        	}	
+        	return nodes;
+    	}
+    	
+    	// The key isn't exist 
+    	return null; 
+    
     }
 
 
@@ -140,7 +170,6 @@ public class SkipList<K extends Comparable<? super K>, V>
         private SkipNode [] forward;
         // the number of levels
         private int level;
-
         /**
          * Initializes the fields with the required KVPair and the number of
          * levels from the random level method in the SkipList.
