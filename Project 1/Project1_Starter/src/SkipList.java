@@ -104,14 +104,14 @@ public class SkipList<K extends Comparable<? super K>, V>
     	SkipNode[] rmv=(SkipNode[]) Array.newInstance(SkipList.SkipNode.class,head.level+1);//Array to store nodes 
     	SkipNode temp=head;// Dummy header node
     	for(int s1= temp.level ; s1>=0; s1--) {// loop to iterate on nodes in levels
-    		while((temp.forward[s1]!=null) &&(temp.forward[s1].pair.getKey().compareTo(key) < 0)){// to iterate on nodes that  is smaller than the required
+    		while((temp.forward[s1]!=null) &&(temp.forward[s1].element().getKey().compareTo(key) < 0)){// to iterate on nodes that  is smaller than the required
     			  temp = temp.forward[s1];//continuing to search
     		}
     		rmv[s1]=temp;//store nodes 
     	}
     	temp=temp.forward[0];// Move to actual record, if it exists
 		
-	    if(temp.pair.getKey().compareTo(key)==0 && temp!=null) {//if this is the required node
+	    if( temp!=null && temp.element().getKey().compareTo(key)==0) {//if this is the required node
 			for(int i=temp.level;i>=0;i--) {//to iterate on levels that may have the same node
 				
 				rmv[i].forward[i]=temp.forward[i];//to link with the next node
