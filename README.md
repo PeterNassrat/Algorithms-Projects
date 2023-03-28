@@ -1,3 +1,3 @@
 // Date: 03/2023 //
 # Algorithms Projects
-This repository is for working on **projects** in the **Algorithms Design and Analysis** course.
+This repository for working on projects in Algorithms Design and Analsis course.
