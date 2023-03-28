@@ -1,5 +1,3 @@
-import java.awt.Rectangle;
-
 /**
  * This class is responsible for interfacing between the command processor and
  * the SkipList. The responsibility of this class is to further interpret
@@ -19,14 +17,14 @@ public class Database {
 	// a string for the name of the rectangle and then
 	// a rectangle object, these are stored in a KVPair,
 	// see the KVPair class for more information
-	private SkipList<String, Rectangle> list;
+	private SkipList<String, CustomRectangle> list;
 
 	/**
 	 * The constructor for this class initializes a SkipList object with String and
 	 * Rectangle a its parameters.
 	 */
 	public Database() {
-		list = new SkipList<String, Rectangle>();
+		list = new SkipList<String, CustomRectangle>();
 	}
 
 	/**
@@ -37,7 +35,7 @@ public class Database {
 	 * 
 	 * @param pair the KVPair to be inserted
 	 */
-	public void insert(KVPair<String, Rectangle> pair) {
+	public void insert(KVPair<String, CustomRectangle> pair) {
 
 	}
 
