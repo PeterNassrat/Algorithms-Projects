@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 /**
  * This class is responsible for interfacing between the command processor and
  * the SkipList. The responsibility of this class is to further interpret
@@ -7,13 +9,12 @@
  * Many of these methods will simply call the appropriate version of the
  * SkipList method after some preparation.
  * 
- * @author CS Staff
+ * @author CS Staff and edited by CS group 2
  * 
- * @version 2021-08-23
+ * @version 03/2023
  */
 public class Database {
 
-	
 	// this is the SkipList object that we are using
 	// a string for the name of the rectangle and then
 	// a rectangle object, these are stored in a KVPair,
@@ -22,7 +23,7 @@ public class Database {
 
 	/**
 	 * The constructor for this class initializes a SkipList object with String and
-	 * Rectangle a its parameters.
+	 * Rectangle as its parameters.
 	 */
 	public Database() {
 		list = new SkipList<String, CustomRectangle>();
@@ -75,7 +76,29 @@ public class Database {
 	 * @param h height of the region
 	 */
 	public void regionsearch(int x, int y, int w, int h) {
+		// Declare an object from the CustomRectangle class and initialize it with x, y,
+		// w, h values
+		CustomRectangle rect = new CustomRectangle(x, y, w, h);
 
+		// Check if the rectangle is a valid rectangle
+		if (rect.isValidRect()) {
+			System.out.println("Rectangles intersecting region (" + rect.toString() + "): ");
+			// Create an iterator to iterate on the list
+			Iterator<KVPair<String, CustomRectangle>> it = list.iterator();
+			// Check if the list has more elements
+			while (it.hasNext()) {
+				// Create a pair object to store the next element of the list
+				KVPair<String, CustomRectangle> element = it.next();
+				// Check if the rectangle is intersecting with the current rectangle of the list
+				if (rect.intersects(element.getValue())) {
+					System.out.println(element.toString());
+				}
+			}
+		}
+		// If the rectangle is not a valid rectangle
+		else {
+			System.out.println("Rectangle rejected: (" + rect.toString() + ")");
+		}
 	}
 
 	/**
