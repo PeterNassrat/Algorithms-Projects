@@ -36,7 +36,19 @@ public class Database {
 	 * @param pair the KVPair to be inserted
 	 */
 	public void insert(KVPair<String, CustomRectangle> pair) {
-
+		
+		
+	    //check the validation of rectangle to be inserted or rejected
+		if(pair.getValue().isValidRect()&&pair.getValue().isInWBoxRect()&&Helper.isValidName(pair.getKey())==true) {
+			//inserting rectangle if it is valid 
+			list.insert(pair);
+			//displaying the rectangle inserted
+			System.out.println("Rectangle inserted: "+ pair.toString() ); 
+		}
+		else 
+			//displaying the rectangle rejected 
+			System.out.println("Rectangle rejected: "+ pair.toString() ); 
+		
 	}
 
 	/**
