@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -38,19 +39,18 @@ public class Database {
 	 * @param pair the KVPair to be inserted
 	 */
 	public void insert(KVPair<String, CustomRectangle> pair) {
-		
-		
-	    //check the validation of rectangle to be inserted or rejected
-		if(pair.getValue().isValidRect()&&pair.getValue().isInWBoxRect()&&Helper.isValidName(pair.getKey())==true) {
-			//inserting rectangle if it is valid 
+
+		// check the validation of rectangle to be inserted or rejected
+		if (pair.getValue().isValidRect() && pair.getValue().isInWBoxRect()
+				&& Helper.isValidName(pair.getKey()) == true) {
+			// inserting rectangle if it is valid
 			list.insert(pair);
-			//displaying the rectangle inserted
-			System.out.println("Rectangle inserted: "+ pair.toString() ); 
-		}
-		else 
-			//displaying the rectangle rejected 
-			System.out.println("Rectangle rejected: "+ pair.toString() ); 
-		
+			// displaying the rectangle inserted
+			System.out.println("Rectangle inserted: " + pair.toString());
+		} else
+			// displaying the rectangle rejected
+			System.out.println("Rectangle rejected: " + pair.toString());
+
 	}
 
 	/**
@@ -59,17 +59,12 @@ public class Database {
 	 * 
 	 * @param name the name of the rectangle to be removed
 	 */
-	public void remove(String name)
-	{
+	public void remove(String name) {
 		KVPair<String, CustomRectangle> RemoveRec = list.remove(name);
-		if (RemoveRec==null) 
-		{
-			System.out.println("Rectangle not found: ("+name+")");
-		}
-		else
-		{
-			System.out.println("Rectangle removed: "+RemoveRec.toString());
-
+		if (RemoveRec == null) {
+			System.out.println("Rectangle not removed: (" + name + ")");
+		} else {
+			System.out.println("Rectangle removed: " + RemoveRec.toString());
 		}
 
 	}
@@ -84,22 +79,21 @@ public class Database {
 	 * @param h height of the rectangle to be removed
 	 */
 	public void remove(int x, int y, int w, int h) {
-		
+
 		CustomRectangle rect = new CustomRectangle(x, y, w, h);
-		
+
 		if (rect.isInWBoxRect() && rect.isValidRect()) {
-			
+
 			KVPair<String, CustomRectangle> removedRect = list.removeByValue(rect);
-			
+
 			if (removedRect != null) {
-				System.out.println("Rectangle removed : (" +removedRect.toString()+ ")");
+				System.out.println("Rectangle removed: " + removedRect.toString());
 			}
-			
+
 			else
-				System.out.println("Rectangle not removed: ("+ rect.toString() + ")");
-		}
-			else
-				System.out.println("Rectangle rejected: ("+ rect.toString()+ ")");
+				System.out.println("Rectangle not removed: (" + rect.toString() + ")");
+		} else
+			System.out.println("Rectangle rejected: (" + rect.toString() + ")");
 	}
 
 	/**
@@ -145,30 +139,30 @@ public class Database {
 	 * Iterators for this
 	 */
 	public void intersections() {
-		
-		System.out.println("Intersection pairs:");
-		
+
+		System.out.println("Intersections pairs:");
+
 		Iterator<KVPair<String, CustomRectangle>> it = list.iterator(); // iterator for the first rectangle
 		KVPair<String, CustomRectangle> curr = it.next();
-		
-		int i = 0;		
-		while(curr != null) {
+
+		int i = 0;
+		while (curr != null) {
 			i++;
 			Iterator<KVPair<String, CustomRectangle>> it2 = list.iterator(); // iterator for the second rectangle
 			KVPair<String, CustomRectangle> curr2 = it2.next();
-			
+
 			int j = 0;
-			while(curr2 != null) {
-				
+			while (curr2 != null) {
+
 				j++;
-				if(j > i) {					
+				if (j != i) {
 					CustomRectangle rec1 = curr.getValue();
 					CustomRectangle rec2 = curr2.getValue();
-					
+
 					// prints the rectangle pair if they intersect with each other
-					if(rec1.intersects(rec2)){
-						System.out.println("(" + curr.getKey() + " " + rec1.toString() + " | " + curr2.getKey()
-								+ " " + rec2.toString() + ")" );						
+					if (rec1.intersects(rec2)) {
+						System.out.println("(" + curr.getKey() + ", " + rec1.toString() + " | " + curr2.getKey() + ", "
+								+ rec2.toString() + ")");
 					}
 				}
 				curr2 = it2.next();
@@ -186,13 +180,13 @@ public class Database {
 	public void search(String name) {
 		ArrayList<KVPair<String, CustomRectangle>> p = list.search(name);
 		
-		if(p!=null) {//see if the node is exit or not
-			for(int i=0; i<p.length;i++) {
+		if (p != null) {// see if the node is exit or not
+			System.out.println("Rectangles found:");
+			for (int i = 0; i < p.size(); i++) {
 				System.out.println(p.get(i).toString());
 			}
-		}
-		else {
-			System.out.println("Not found :" + name);
+		} else {
+			System.out.println("Rectangle not found: " + name);
 
 		}
 
