@@ -38,10 +38,7 @@ public class CommandProcessor {
 	 * @param line a single line from the text file
 	 */
 	public void processor(String line) {
-
-		// Removes whitespace from both the beginning and end of the string
-		line = line.trim();
-
+		
 		// Split the string into substrings separated by one or more space
 		String[] words = line.split("\\s+");
 		String operation;
