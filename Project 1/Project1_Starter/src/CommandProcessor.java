@@ -38,6 +38,63 @@ public class CommandProcessor {
 	 * @param line a single line from the text file
 	 */
 	public void processor(String line) {
+		
+		// Split the string into substrings separated by one or more space
+		String[] words = line.split("\\s+");
+		String operation;
+		operation = words[0];
+		if (operation.equals("insert")) {
+			// Store rectangl's information
+			String rectangleName = words[1];
+			int upperLeft_x = Integer.parseInt(words[2]);
+			int upperLeft_y = Integer.parseInt(words[3]);
+			int width = Integer.parseInt(words[4]);
+			int height = Integer.parseInt(words[5]);
+
+			// initialize the rectangle
+			CustomRectangle rec = new CustomRectangle(upperLeft_x, upperLeft_y, width, height);
+			KVPair<String, CustomRectangle> pair = new KVPair<String, CustomRectangle>(rectangleName, rec);
+
+			// call insert method
+			data.insert(pair);
+		} else if (operation.equals("regionsearch")) {
+			// Store rectangl's information
+			int upperLeft_x = Integer.parseInt(words[1]);
+			int upperLeft_y = Integer.parseInt(words[2]);
+			int width = Integer.parseInt(words[3]);
+			int height = Integer.parseInt(words[4]);
+
+			// call regionSearch method
+			data.regionsearch(upperLeft_x, upperLeft_y, width, height);
+		} else if (operation.equals("remove")) {
+			// check if that remove by key or value
+			if (words.length == 2) // remove by key
+			{
+				String rectangleName = words[1];
+				// call remove method
+				data.remove(rectangleName);
+			} else // remove by value
+			{
+				int upperLeft_x = Integer.parseInt(words[1]);
+				int upperLeft_y = Integer.parseInt(words[2]);
+				int width = Integer.parseInt(words[3]);
+				int height = Integer.parseInt(words[4]);
+
+				// call remove method
+				data.remove(upperLeft_x, upperLeft_y, width, height);
+			}
+		} else if (operation.equals("search")) {
+			String rectangleName = words[1];
+
+			// call search method
+			data.search(rectangleName);
+		} else if (operation.equals("intersections")) {
+			// call intersection method
+			data.intersections();
+		} else if (operation.equals("dump")) {
+			// call dump method
+			data.dump();
+		}
 
 	}
 
