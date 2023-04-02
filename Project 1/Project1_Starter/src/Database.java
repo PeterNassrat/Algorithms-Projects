@@ -62,12 +62,19 @@ public class Database {
 		
 		CustomRectangle rect = new CustomRectangle(x, y, w, h);
 		
-		if (list.removeByValue(rect)!=null) {
-			System.out.println("Rectangle removed : " + list.toString());
+		if (rect.isInWBoxRect() && rect.isValidRect()) {
+			
+			KVPair<String, CustomRectangle> removedRect = list.removeByValue(rect);
+			
+			if (removedRect != null) {
+				System.out.println("Rectangle removed : (" +removedRect.toString()+ ")");
+			}
+			
+			else
+				System.out.println("Rectangle not removed: ("+ rect.toString() + ")");
 		}
-		
-		else
-			System.out.println("Rectangle not found: "+ rect.toString());
+			else
+				System.out.println("Rectangle rejected: ("+ rect.toString()+ ")");
 	}
 
 	/**
