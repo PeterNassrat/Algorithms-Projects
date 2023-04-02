@@ -45,7 +45,18 @@ public class Database {
 	 * 
 	 * @param name the name of the rectangle to be removed
 	 */
-	public void remove(String name) {
+	public void remove(String name)
+	{
+		KVPair<String, CustomRectangle> RemoveRec = list.remove(name);
+		if (RemoveRec==null) 
+		{
+			System.out.println("Rectangle not found: ("+name+")");
+		}
+		else
+		{
+			System.out.println("Rectangle removed: "+RemoveRec.toString());
+
+		}
 
 	}
 
