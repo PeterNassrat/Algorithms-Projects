@@ -82,7 +82,22 @@ public class Database {
 	 * @param h height of the rectangle to be removed
 	 */
 	public void remove(int x, int y, int w, int h) {
-
+		
+		CustomRectangle rect = new CustomRectangle(x, y, w, h);
+		
+		if (rect.isInWBoxRect() && rect.isValidRect()) {
+			
+			KVPair<String, CustomRectangle> removedRect = list.removeByValue(rect);
+			
+			if (removedRect != null) {
+				System.out.println("Rectangle removed : (" +removedRect.toString()+ ")");
+			}
+			
+			else
+				System.out.println("Rectangle not removed: ("+ rect.toString() + ")");
+		}
+			else
+				System.out.println("Rectangle rejected: ("+ rect.toString()+ ")");
 	}
 
 	/**
