@@ -184,6 +184,14 @@ public class Database {
 	 * @param name name of the Rectangle to be searched for
 	 */
 	public void search(String name) {
+		SkipList<String, ?> p=new SkipList<String, Object>();
+		if(p.search(name)!=null) {//see if the node is exit or not
+			System.out.println(name);
+		}
+		else {
+			System.out.println("Not found :" + name);
+
+		}
 
 	}
 
