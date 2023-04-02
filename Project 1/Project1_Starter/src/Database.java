@@ -59,7 +59,15 @@ public class Database {
 	 * @param h height of the rectangle to be removed
 	 */
 	public void remove(int x, int y, int w, int h) {
-
+		
+		CustomRectangle rect = new CustomRectangle(x, y, w, h);
+		
+		if (list.removeByValue(rect)!=null) {
+			System.out.println("Rectangle removed : " + list.toString());
+		}
+		
+		else
+			System.out.println("Rectangle not found: "+ rect.toString());
 	}
 
 	/**
