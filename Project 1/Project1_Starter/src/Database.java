@@ -184,9 +184,12 @@ public class Database {
 	 * @param name name of the Rectangle to be searched for
 	 */
 	public void search(String name) {
-		SkipList<String, ?> p=new SkipList<String, Object>();
-		if(p.search(name)!=null) {//see if the node is exit or not
-			System.out.println(name);
+		ArrayList<KVPair<String, CustomRectangle>> p = list.search(name);
+		
+		if(p!=null) {//see if the node is exit or not
+			for(int i=0; i<p.length;i++) {
+				System.out.println(p.get(i).toString());
+			}
 		}
 		else {
 			System.out.println("Not found :" + name);
