@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 /**
  * This class is responsible for interfacing between the command processor and
  * the SkipList. The responsibility of this class is to further interpret
@@ -83,7 +85,36 @@ public class Database {
 	 * Iterators for this
 	 */
 	public void intersections() {
-
+		
+		System.out.println("Intersection pairs:");
+		
+		Iterator<KVPair<String, CustomRectangle>> it = list.iterator(); // iterator for the first rectangle
+		KVPair<String, CustomRectangle> curr = it.next();
+		
+		int i = 0;		
+		while(curr != null) {
+			i++;
+			Iterator<KVPair<String, CustomRectangle>> it2 = list.iterator(); // iterator for the second rectangle
+			KVPair<String, CustomRectangle> curr2 = it2.next();
+			
+			int j = 0;
+			while(curr2 != null) {
+				
+				j++;
+				if(j > i) {					
+					CustomRectangle rec1 = curr.getValue();
+					CustomRectangle rec2 = curr2.getValue();
+					
+					// prints the rectangle pair if they intersect with each other
+					if(rec1.intersects(rec2)){
+						System.out.println("(" + curr.getKey() + " " + rec1.toString() + " | " + curr2.getKey()
+								+ " " + rec2.toString() + ")" );						
+					}
+				}
+				curr2 = it2.next();
+			}
+			curr = it.next();
+		}
 	}
 
 	/**
