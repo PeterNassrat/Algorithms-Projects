@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Timeout;
  *
  * @version 03/2023
  */
-
 class SkipListTest {
 	// Declare an object of the SkipList that
 	// stores the person's name as a key and his/her age as a value.
