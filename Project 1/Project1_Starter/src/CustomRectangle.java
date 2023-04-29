@@ -17,7 +17,7 @@ public class CustomRectangle extends Rectangle {
 	// override function to make this format
 	@Override
 	public String toString() {
-		return ((int) this.x + ", " + (int) this.y + ", " + (int) this.width + ", " + (int) this.height);
+		return (this.x + ", " + this.y + ", " + this.width + ", " + this.height);
 	}
 
 	// isInWBoxRect function check if the rectangle in world box or not
@@ -27,12 +27,10 @@ public class CustomRectangle extends Rectangle {
 			return true;
 		} else {
 			return false;
-
 		}
 	}
 
 	// isValidRect function check if height and width are greater than 0 or not
-
 	public boolean isValidRect() {
 		if (this.width > 0 && this.height > 0) {
 			return true;
