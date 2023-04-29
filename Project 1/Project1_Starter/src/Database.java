@@ -10,7 +10,7 @@ import java.util.Iterator;
  * Many of these methods will simply call the appropriate version of the
  * SkipList method after some preparation.
  * 
- * @author CS Staff and edited by CS group 2
+ * @author CS group 2
  * 
  * @version 03/2023
  */
@@ -39,18 +39,16 @@ public class Database {
 	 * @param pair the KVPair to be inserted
 	 */
 	public void insert(KVPair<String, CustomRectangle> pair) {
-
 		// check the validation of rectangle to be inserted or rejected
-		if (pair.getValue().isValidRect() && pair.getValue().isInWBoxRect()
-				&& Helper.isValidName(pair.getKey()) == true) {
+		if (pair.getValue().isValidRect() && pair.getValue().isInWBoxRect() && Helper.isValidName(pair.getKey())) {
 			// inserting rectangle if it is valid
 			list.insert(pair);
 			// displaying the rectangle inserted
 			System.out.println("Rectangle inserted: " + pair.toString());
-		} else
+		} else {
 			// displaying the rectangle rejected
 			System.out.println("Rectangle rejected: " + pair.toString());
-
+		}
 	}
 
 	/**
@@ -66,7 +64,6 @@ public class Database {
 		} else {
 			System.out.println("Rectangle removed: " + RemoveRec.toString());
 		}
-
 	}
 
 	/**
@@ -79,28 +76,25 @@ public class Database {
 	 * @param h height of the rectangle to be removed
 	 */
 	public void remove(int x, int y, int w, int h) {
-
 		CustomRectangle rect = new CustomRectangle(x, y, w, h);
-
-		if (rect.isInWBoxRect() && rect.isValidRect()) {
-
+		if (rect.isValidRect() && rect.isInWBoxRect()) {
 			KVPair<String, CustomRectangle> removedRect = list.removeByValue(rect);
+			if (removedRect == null) {
+				System.out.println("Rectangle not removed: (" + rect.toString() + ")");
 
-			if (removedRect != null) {
+			} else {
 				System.out.println("Rectangle removed: " + removedRect.toString());
 			}
-
-			else
-				System.out.println("Rectangle not removed: (" + rect.toString() + ")");
-		} else
+		} else {
 			System.out.println("Rectangle rejected: (" + rect.toString() + ")");
+		}
 	}
 
 	/**
 	 * Displays all the rectangles inside the specified region. The rectangle must
 	 * have some area inside the area that is created by the region, meaning,
 	 * Rectangles that only touch a side or corner of the region specified will not
-	 * be said to be in the region. You will need a SkipList Iterator for this
+	 * be said to be in the region.
 	 * 
 	 * @param x x-Coordinate of the region
 	 * @param y y-Coordinate of the region
@@ -111,7 +105,6 @@ public class Database {
 		// Declare an object from the CustomRectangle class and initialize it with x, y,
 		// w, h values
 		CustomRectangle rect = new CustomRectangle(x, y, w, h);
-
 		// Check if the rectangle is a valid rectangle
 		if (rect.isValidRect()) {
 			System.out.println("Rectangles intersecting region (" + rect.toString() + "): ");
@@ -134,31 +127,26 @@ public class Database {
 	}
 
 	/**
-	 * Prints out all the rectangles that Intersect each other by calling the
-	 * SkipList method for intersections. You will need to use two SkipList
-	 * Iterators for this
+	 * Prints out all pairs of the rectangles that Intersect each other by calling
+	 * the SkipList method for intersections.
 	 */
 	public void intersections() {
-
 		System.out.println("Intersections pairs:");
-
-		Iterator<KVPair<String, CustomRectangle>> it = list.iterator(); // iterator for the first rectangle
-		KVPair<String, CustomRectangle> curr = it.next();
-
+		// iterator for the first rectangle
+		Iterator<KVPair<String, CustomRectangle>> it1 = list.iterator();
+		KVPair<String, CustomRectangle> curr = it1.next();
 		int i = 0;
 		while (curr != null) {
 			i++;
-			Iterator<KVPair<String, CustomRectangle>> it2 = list.iterator(); // iterator for the second rectangle
+			// iterator for the second rectangle
+			Iterator<KVPair<String, CustomRectangle>> it2 = list.iterator();
 			KVPair<String, CustomRectangle> curr2 = it2.next();
-
 			int j = 0;
 			while (curr2 != null) {
-
 				j++;
 				if (j != i) {
 					CustomRectangle rec1 = curr.getValue();
 					CustomRectangle rec2 = curr2.getValue();
-
 					// prints the rectangle pair if they intersect with each other
 					if (rec1.intersects(rec2)) {
 						System.out.println("(" + curr.getKey() + ", " + rec1.toString() + " | " + curr2.getKey() + ", "
@@ -167,7 +155,7 @@ public class Database {
 				}
 				curr2 = it2.next();
 			}
-			curr = it.next();
+			curr = it1.next();
 		}
 	}
 
@@ -178,18 +166,16 @@ public class Database {
 	 * @param name name of the Rectangle to be searched for
 	 */
 	public void search(String name) {
-		ArrayList<KVPair<String, CustomRectangle>> p = list.search(name);
-		
-		if (p != null) {// see if the node is exit or not
-			System.out.println("Rectangles found:");
-			for (int i = 0; i < p.size(); i++) {
-				System.out.println(p.get(i).toString());
-			}
-		} else {
+		ArrayList<KVPair<String, CustomRectangle>> l = list.search(name);
+		// check if the rectangle is exit or not
+		if (l == null) {
 			System.out.println("Rectangle not found: " + name);
-
+		} else {
+			System.out.println("Rectangles found:");
+			for (int i = 0; i < l.size(); i++) {
+				System.out.println(l.get(i).toString());
+			}
 		}
-
 	}
 
 	/**
