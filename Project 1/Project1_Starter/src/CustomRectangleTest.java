@@ -1,7 +1,6 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -93,5 +92,40 @@ class CustomRectangleTest {
 		rect = new CustomRectangle(134, 122, 22, 46);
 		String rectString = "134, 122, 22, 46";
 		assertEquals(rectString, rect.toString());
+	}
+	
+	@Test
+	public void test11() {
+		// To test the intersects method
+		rect = new CustomRectangle(0, 0, 5, 5);
+		assertFalse(rect.intersects(new CustomRectangle(5, 5, 5, 5)));
+	}
+	
+	@Test
+	public void test12() {
+		// To test the intersects method
+		rect = new CustomRectangle(0, 0, 5, 5);
+		assertFalse(rect.intersects(new CustomRectangle(0, 5, 5, 5)));
+	}
+	
+	@Test
+	public void test13() {
+		// To test the intersects method
+		rect = new CustomRectangle(0, 0, 5, 5);
+		assertFalse(rect.intersects(new CustomRectangle(5, 0, 5, 5)));
+	}
+	
+	@Test
+	public void test14() {
+		// To test the intersects method
+		rect = new CustomRectangle(5, 5, 5, 5);
+		assertTrue(rect.intersects(new CustomRectangle(0, 0, 10, 10)));
+	}
+	
+	@Test
+	public void test15() {
+		// To test the intersects method
+		rect = new CustomRectangle(5, 5, 5, 5);
+		assertTrue(rect.intersects(new CustomRectangle(0, 0, 15, 15)));
 	}
 }

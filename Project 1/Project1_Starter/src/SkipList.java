@@ -1,4 +1,3 @@
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,15 +7,17 @@ import java.util.Random;
  * This class implements SkipList data structure and contains an inner SkipNode
  * class which the SkipList will make an array of to store data.
  * 
- * @author CS Staff and edited by CS group 2
+ * @author CS group 2
  * 
  * @version 03/2023
  * @param <K> Key
  * @param <V> Value
  */
 public class SkipList<K extends Comparable<? super K>, V> implements Iterable<KVPair<K, V>> {
-	private SkipNode head; // First element of the top level
-	private int size; // number of entries in the Skip List
+	// First element of the top level
+	private SkipNode head;
+	// number of entries in the Skip List
+	private int size;
 
 	/**
 	 * Initializes the fields head, size and level
@@ -37,36 +38,37 @@ public class SkipList<K extends Comparable<? super K>, V> implements Iterable<KV
 		for (lev = 0; Math.abs(value.nextInt()) % 2 == 0; lev++) {
 			// Do nothing
 		}
-		return lev; // returns a random level
+		// returns a random level
+		return lev;
 	}
 
 	/**
 	 * Searches for the KVPair using the key which is a Comparable object.
 	 * 
 	 * @param key key to be searched for
-	 * @return returns a list of KVPairs with the same key
+	 * @return returns a list of KVPairs with the same key and null if there aren't
+	 *         KVPairs with the same key exist
 	 */
 	public ArrayList<KVPair<K, V>> search(K key) {
-		SkipNode curr = head; // start node (head)
-
+		// start node (head)
+		SkipNode curr = head;
 		for (int i = head.level; i >= 0; i--) {
-			while ((curr.forward[i] != null) && (curr.forward[i].element().getKey().compareTo(key) < 0)) {
-				curr = curr.forward[i]; // go forward
+			while (curr.forward[i] != null && curr.forward[i].element().getKey().compareTo(key) < 0) {
+				// go forward
+				curr = curr.forward[i];
 			}
 		}
-
-		curr = curr.forward[0]; // Move to actual record, if it exists
-
-		if (curr != null && (curr.element().getKey().compareTo(key) == 0)) {
+		// Move to actual record, if it exists
+		curr = curr.forward[0];
+		if (curr != null && curr.element().getKey().compareTo(key) == 0) {
 			// Array to store nodes that have been found
 			ArrayList<KVPair<K, V>> nodes = new ArrayList<KVPair<K, V>>();
-			while (curr != null && (curr.element().getKey().compareTo(key) == 0)) {
+			while (curr != null && curr.element().getKey().compareTo(key) == 0) {
 				nodes.add(curr.element());
 				curr = curr.forward[0];
 			}
 			return nodes;
 		}
-
 		// The key isn't exist
 		return null;
 	}
@@ -87,16 +89,13 @@ public class SkipList<K extends Comparable<? super K>, V> implements Iterable<KV
 	@SuppressWarnings("unchecked")
 	public void insert(KVPair<K, V> it) {
 		int newLevel = randomLevel();
-
 		// Increasing the head levels if the new level is higher
 		if (newLevel > head.level) {
 			adjustHead(newLevel);
 		}
-
 		// An array to store the end node for every level before the required position
 		SkipNode[] temp;
 		temp = (SkipNode[]) Array.newInstance(SkipList.SkipNode.class, head.level + 1);
-
 		// Searching for the position to insert the New Node
 		SkipNode curr = head;
 		for (int i = head.level; i >= 0; i--) {
@@ -105,7 +104,6 @@ public class SkipList<K extends Comparable<? super K>, V> implements Iterable<KV
 			}
 			temp[i] = curr;
 		}
-
 		SkipNode newNode = new SkipNode(it, newLevel);
 		// Updating the forwards arrays of the New Node and for the nodes pointing to
 		// the New Node
@@ -113,8 +111,8 @@ public class SkipList<K extends Comparable<? super K>, V> implements Iterable<KV
 			newNode.forward[i] = temp[i].forward[i];
 			temp[i].forward[i] = newNode;
 		}
-
-		size++; // increasing the size of the Skip List
+		// increasing the size of the Skip List
+		size++;
 	}
 
 	/**
@@ -126,7 +124,6 @@ public class SkipList<K extends Comparable<? super K>, V> implements Iterable<KV
 	private void adjustHead(int newLevel) {
 		SkipNode temp = head;
 		int prevLevel = head.level;
-
 		head = new SkipNode(null, newLevel);
 		// restoring the previous forward array to the new head
 		for (int i = 0; i <= prevLevel; i++) {
@@ -140,31 +137,34 @@ public class SkipList<K extends Comparable<? super K>, V> implements Iterable<KV
 	 * @param key of the KVPair to be removed
 	 * @return returns the removed pair if the pair was valid and null if not
 	 */
-
 	@SuppressWarnings("unchecked")
 	public KVPair<K, V> remove(K key) {
-		SkipNode[] rmv = (SkipNode[]) Array.newInstance(SkipList.SkipNode.class, head.level + 1);// Array to store nodes
-		SkipNode temp = head;// Dummy header node
-
-		for (int s1 = temp.level; s1 >= 0; s1--) {// loop to iterate on nodes in levels
+		// Array to store nodes
+		SkipNode[] rmv = (SkipNode[]) Array.newInstance(SkipList.SkipNode.class, head.level + 1);
+		// Dummy header node
+		SkipNode temp = head;
+		// loop to iterate on nodes in levels
+		for (int s1 = head.level; s1 >= 0; s1--) {
 			// to iterate on nodes that is smaller than the required
-			while ((temp.forward[s1] != null) && (temp.forward[s1].element().getKey().compareTo(key) < 0)) {
-				temp = temp.forward[s1];// continuing to search
+			while (temp.forward[s1] != null && temp.forward[s1].element().getKey().compareTo(key) < 0) {
+				// continuing to search
+				temp = temp.forward[s1];
 			}
-			rmv[s1] = temp;// store nodes
+			// store nodes
+			rmv[s1] = temp;
 		}
-
-		temp = temp.forward[0];// Move to actual record, if it exists
-
-		if (temp != null && temp.element().getKey().compareTo(key) == 0) {// if this is the required node
-			for (int i = temp.level; i >= 0; i--) {// to iterate on levels that may have the same node
-
-				rmv[i].forward[i] = temp.forward[i];// to link with the next node
-
+		// Move to actual record, if it exists
+		temp = temp.forward[0];
+		// if this is the required node
+		if (temp != null && temp.element().getKey().compareTo(key) == 0) {
+			// to iterate on levels that may have the same node
+			for (int i = temp.level; i >= 0; i--) {
+				// to link with the next node
+				rmv[i].forward[i] = temp.forward[i];
 			}
-			size--;// removing the node
+			// removing the node
+			size--;
 			return temp.element();
-
 		}
 		// if the node is bigger than required or it is null
 		return null;
@@ -179,30 +179,30 @@ public class SkipList<K extends Comparable<? super K>, V> implements Iterable<KV
 	 */
 	@SuppressWarnings("unchecked")
 	public KVPair<K, V> removeByValue(V val) {
-		SkipNode crt = head; // Points to the current node (head)
-		SkipNode iterNode = head; // To iterate on the list
+		// Points to the current node (head)
+		SkipNode crt = head;
 		// The previous nodes of the node to be removed
 		SkipNode[] prvNodes = (SkipNode[]) Array.newInstance(SkipList.SkipNode.class, head.level + 1);
-
-		while ((crt.forward[0] != null) && (crt.forward[0].element().getValue().equals(val) != true)) {
-			crt = crt.forward[0]; // Go to the next node
+		while (crt.forward[0] != null && crt.forward[0].element().getValue().equals(val) != true) {
+			// Go to the next node
+			crt = crt.forward[0];
 		}
-
-		crt = crt.forward[0]; // Move to actual record, if it exists
-
-		if ((crt != null)) { // Check if this is the required node
-
+		// Move to actual record, if it exists
+		crt = crt.forward[0];
+		// Check if this is the required node
+		if (crt != null) {
+			// To iterate on the list
+			SkipNode iterNode = head;
 			for (int i = crt.level; i >= 0; i--) {
-				while ((iterNode.forward[i] != null) && iterNode.forward[i].equals(crt) != true) {
-					iterNode = iterNode.forward[i]; // Go to the next node
+				while (iterNode.forward[i] != null && iterNode.forward[i].equals(crt) != true) {
+					// Go to the next node
+					iterNode = iterNode.forward[i];
 				}
 				prvNodes[i] = iterNode;
 			}
-
 			for (int j = crt.level; j >= 0; j--) {
 				prvNodes[j].forward[j] = crt.forward[j];
 			}
-
 			size--;
 			return crt.element();
 		}
@@ -215,15 +215,12 @@ public class SkipList<K extends Comparable<? super K>, V> implements Iterable<KV
 	public void dump() {
 		System.out.println("SkipList dump:");
 		SkipNode x = head;
-
 		while (x != null) {
 			System.out.print("Node has depth " + Integer.toString(x.level + 1) + ", Value ");
-
 			if (x.element() == null)
 				System.out.println("(null)");
 			else
 				System.out.println(x.element().toString());
-
 			x = x.forward[0];
 		}
 		System.out.println("SkipList size is: " + Integer.toString(size));
